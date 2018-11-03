@@ -15,7 +15,7 @@
         - curl
   - name: Add kubernetes apt key
     apt_key:
-        url: https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
         state: present
   - name: Add docker apt key
     apt_key:
@@ -23,7 +23,7 @@
         state: present
   - name: Add k8s apt repo
     apt_repository:
-        repo: deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
         state: present
   - name: Add docker apt repo
     apt_repository:
