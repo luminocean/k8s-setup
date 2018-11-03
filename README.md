@@ -1,3 +1,7 @@
+# k8s-setup
+
+Scripts to setup an kubernetes environment based on kubeadm.
+
 ### 1. prepare hosts file
 
 ```
@@ -52,6 +56,19 @@ kubectl get nodes
 git clone https://github.com/kubernetes-incubator/metrics-server.git
 
 cd metrics-server
+```
+By default, the metrics server queries the k8s API server to get node hostnames and try to access them. However in a simple multi-VM environment, we might have a functional DNS service ready. Also the metrics server connects to each node through https, so there's a certificate issue here.
+
+To make things work, we can modify the command line used to deploy the metrics server by adding the following lines to `deploy/1.8+/metrics-server-deployment.yaml` in the container spec section:
+```
+command:
+- /metrics-server
+- --kubelet-preferred-address-types=InternalIP
+- --kubelet-insecure-tls
+```
+
+And then apply files:
+```
 kubectl create -f deploy/1.8+/
 ```
 
@@ -60,3 +77,8 @@ We can forward k8s API server's endpoint to local for later use:
 kubectl proxy --port=8080 &
 ```
 
+Try:
+```
+curl http://localhost:8080/apis/metrics.k8s.io/v1beta1/nodes
+```
+and you shall see the node info.
