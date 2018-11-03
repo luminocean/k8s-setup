@@ -1,0 +1,44 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Update apt
+    apt:
+        update_cache: yes
+  - name: Install preliminary apt packages
+    apt:
+        name: "{{ packages }}"
+        force: yes
+    vars:
+        packages:
+        - apt-transport-https
+        - curl
+  - name: Add kubernetes apt key
+    apt_key:
+        url: https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg
+        state: present
+  - name: Add docker apt key
+    apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+  - name: Add k8s apt repo
+    apt_repository:
+        repo: deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
+        state: present
+  - name: Add docker apt repo
+    apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu xenial stable
+        state: present
+  - name: Update apt
+    apt:
+        update_cache: yes
+  - name: Install apt packages
+    apt:
+        name: "{{packages  }}"
+        force: yes
+    vars:
+        packages:
+        - kubelet
+        - kubeadm
+        - kubectl
+        - docker-ce
