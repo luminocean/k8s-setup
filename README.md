@@ -50,7 +50,7 @@ When the installation is done, you should be able to see nodes ready by running:
 kubectl get nodes
 ```
 
-### 7. install metrics-server
+### 7. (optional) install metrics-server
 
 ```
 git clone https://github.com/kubernetes-incubator/metrics-server.git
@@ -88,3 +88,8 @@ Now you can use the following command to see the node resource usages：
 kubectl top node
 ```
 
+# 8. (optional) install Prometheus-operator and a prometheus instance
+
+```
+kubectl apply -f prometheus-demo.yml
+```
