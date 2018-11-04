@@ -77,8 +77,14 @@ We can forward k8s API server's endpoint to local for later use:
 kubectl proxy --port=8080 &
 ```
 
-Try:
+Test the deployment with:
 ```
 curl http://localhost:8080/apis/metrics.k8s.io/v1beta1/nodes
 ```
-and you shall see the node info.
+and you shall see the node info in JSON format.
+
+Now you can use the following command to see the node resource usages：
+```
+kubectl top node
+```
+
